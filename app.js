@@ -80,10 +80,10 @@ app.post('/login/', async (request, response) => {
         username: username,
       }
       const jwtToken = jwt.sign(payload, 'MY_SECRET_TOKEN')
-      response.send(`jwtToken: ${jwtToken}`)
+      response.send({jwtToken})
     } else {
       response.status(400)
-      response.send('Invalid Password')
+      response.send('Invalid password')
     }
   }
 })
@@ -195,7 +195,12 @@ app.get(
     state_id = ${stateId};
   `
     const data = await db.get(getStateQuery)
-    response.send(data)
+    response.send({
+      totalCases: data.totalCases,
+      totalCured: data.totalCured,
+      totalActive: data.totalActive,
+      totalDeaths: data.totalDeaths,
+    })
   },
 )
 
